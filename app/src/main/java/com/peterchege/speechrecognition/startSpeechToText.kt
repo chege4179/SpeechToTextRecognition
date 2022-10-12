@@ -7,6 +7,7 @@ import android.speech.RecognitionListener
 import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
 import android.util.Log
+import androidx.compose.ui.graphics.Color
 
 fun startSpeechToText(viewModel: MainViewModel, ctx: Context, finished: ()-> Unit) {
     val speechRecognizer = SpeechRecognizer.createSpeechRecognizer(ctx)
@@ -38,6 +39,16 @@ fun startSpeechToText(viewModel: MainViewModel, ctx: Context, finished: ()-> Uni
                 viewModel.onChangeOutputText(text = result[0])
                 Log.e("Text Speech",result[0])
                 viewModel.setBackgroundColor(result[0],ctx)
+                if (result[0] =="blue" || result[0].contains("blue")){
+                    viewModel.textToSpeech(context = ctx, speechText = "Here is the blue screen")
+
+                }else if(result[0] =="red" || result[0].contains("red")){
+                    viewModel.textToSpeech(context = ctx, speechText = "Here is the red screen")
+
+                }else{
+                    viewModel.textToSpeech(context = ctx, speechText = "No color red or blue mentioned")
+                }
+
             }
         }
 
@@ -47,3 +58,5 @@ fun startSpeechToText(viewModel: MainViewModel, ctx: Context, finished: ()-> Uni
     })
     speechRecognizer.startListening(speechRecognizerIntent)
 }
+
+
