@@ -48,7 +48,6 @@ fun SpeechToText(
                 .padding(15.dp),
             textAlign = TextAlign.Center
         )
-
         Spacer(modifier = Modifier.height(30.dp))
         Button(
             elevation = ButtonDefaults.elevation(
@@ -58,7 +57,6 @@ fun SpeechToText(
             ),
             colors = ButtonDefaults.buttonColors(backgroundColor = Color.Transparent),
             onClick = {
-
                 getSpeechInput(context)
             },
         ) {

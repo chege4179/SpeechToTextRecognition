@@ -19,16 +19,10 @@ class MainViewModel :ViewModel() {
 
     private  var  textToSpeech:TextToSpeech? = null
 
-
     fun onChangeOutputText(text:String){
         _outputText.value = text
 
     }
-
-    fun onChangeBackgroundColor(color:Color){
-        _backgroundColor.value = color
-    }
-
     fun setBackgroundColor(text:String,context: Context){
         if (text =="blue" || text.contains("blue")){
             _backgroundColor.value = Color.Blue
@@ -42,27 +36,14 @@ class MainViewModel :ViewModel() {
     }
 
     fun textToSpeech(context: Context,speechText:String){
-
-        textToSpeech = TextToSpeech(
-            context
-        ) {
+        textToSpeech = TextToSpeech(context) {
             if (it == TextToSpeech.SUCCESS) {
                 textToSpeech?.let { txtToSpeech ->
                     txtToSpeech.language = Locale.US
                     txtToSpeech.setSpeechRate(1.0f)
-                    txtToSpeech.speak(
-                        speechText,
-                        TextToSpeech.QUEUE_ADD,
-                        null,
-                        null
-                    )
+                    txtToSpeech.speak(speechText, TextToSpeech.QUEUE_ADD, null, null)
                 }
             }
-
         }
     }
-
-
-
-
 }

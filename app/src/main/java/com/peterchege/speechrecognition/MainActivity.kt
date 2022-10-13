@@ -14,10 +14,12 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.core.app.ActivityCompat.startActivityForResult
@@ -57,7 +59,7 @@ class MainActivity : ComponentActivity() {
                                 })
                         }) {
                         val audioPermissionState = rememberPermissionState(
-                            Manifest.permission.RECORD_AUDIO
+                            permission = Manifest.permission.RECORD_AUDIO
                         )
                         when (audioPermissionState.status) {
                             PermissionStatus.Granted -> {
@@ -72,54 +74,28 @@ class MainActivity : ComponentActivity() {
 //
                             }
                             is PermissionStatus.Denied -> {
-                                Column {
+                                Column (
+                                    modifier = Modifier.fillMaxSize(),
+                                    verticalArrangement = Arrangement.Center,
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    ){
                                     Text(
                                         text = "Permission Denied"
                                     )
-                                    Button(onClick = { audioPermissionState.launchPermissionRequest() }) {
-                                        Text("Request permission")
+                                    Button(
+                                        onClick = {
+                                            audioPermissionState.launchPermissionRequest()
+                                        }) {
+                                        Text(text = "Request permission")
                                     }
                                 }
                             }
-
                         }
                     }
                 }
             }
         }
     }
-
-    private fun getSpeechInput(context: Context) {
-        if (!SpeechRecognizer.isRecognitionAvailable(context)) {
-            Toast.makeText(context, "Speech not Available", Toast.LENGTH_SHORT).show()
-        } else {
-            val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
-            intent.putExtra(
-                RecognizerIntent.EXTRA_LANGUAGE_MODEL,
-                RecognizerIntent.LANGUAGE_MODEL_WEB_SEARCH
-            )
-            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
-            intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Speak Something")
-            startActivityForResult(this, intent, 101, null)
-
-
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        // on below line we are checking if the request
-        // code is same and result code is ok
-        if (requestCode == 101 && resultCode == Activity.RESULT_OK) {
-            val result = data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
-            val outputText = result?.get(0).toString()
-            Log.e("Speech text", outputText)
-            //viewModel.onChangeOutputText(outputText)
-
-
-        }
-    }
-
 }
 
 

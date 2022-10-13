@@ -37,8 +37,8 @@ fun startSpeechToText(viewModel: MainViewModel, ctx: Context, finished: ()-> Uni
             val result = bundle.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
             if (result != null) {
                 viewModel.onChangeOutputText(text = result[0])
-                Log.e("Text Speech",result[0])
-                viewModel.setBackgroundColor(result[0],ctx)
+
+                viewModel.setBackgroundColor(text = result[0],context = ctx)
                 if (result[0] =="blue" || result[0].contains("blue")){
                     viewModel.textToSpeech(context = ctx, speechText = "Here is the blue screen")
 
